@@ -48,15 +48,6 @@ CREATE TABLE
         FOREIGN KEY (UserID) REFERENCES Users (UserID)
     );
 
--- Weekly sleep average table
-CREATE TABLE
-    WeeklySleepAverage (
-        WeeklyAverageID INTEGER PRIMARY KEY,
-        UserID INTEGER,
-        AverageSleepDuration REAL,
-        FOREIGN KEY (UserID) REFERENCES Users (UserID)
-    );
-
 -- WATER INTAKE TABLES
 CREATE TABLE
     WaterIntakeGoal (
@@ -72,14 +63,6 @@ CREATE TABLE
         UserID INTEGER,
         WaterIntakeDatetime DATETIME NOT NULL,
         WaterIntakeAmount REAL NOT NULL DEFAULT 0, -- Water intake amount in leters
-        FOREIGN KEY (UserID) REFERENCES Users (UserID)
-    );
-
-CREATE TABLE
-    WeeklyWaterIntakeAverage (
-        WeeklyAverageID INTEGER PRIMARY KEY,
-        UserID INTEGER,
-        AverageWaterIntake REAL,
         FOREIGN KEY (UserID) REFERENCES Users (UserID)
     );
 

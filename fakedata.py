@@ -38,30 +38,53 @@ def generate_authentication(users):
 
 
 def generate_daily_activity_for_today(user_health, users):
-    # for each user generate an entry for today
+    # Define the number of days to generate data for (14 days)
+    num_days = 14
     data = []
-    for user in users:
-        calories_burned = random.randint(0, 1500)
-        calories_consumed = random.randint(1500, 3500)
-        health = user_health[user["UserID"] - 1]
-        # if user is a man
-        # 88.362 + (13.397 × weight in kg) + (4.799 × height in cm) - (5.677 × age in years)
-        if user["Sex"] == "Male":
-            bmr = 88.362 + (13.397 * health["Weight"]) + (4.799 * health["Height"]) - (5.677 * (datetime.now().date() - user["DateOfBirth"]).days / 365.25)
-        else:
-            bmr = 447.593 + (9.247 * health["Weight"]) + (3.098 * health["Height"]) - (4.330 * (datetime.now().date() - user["DateOfBirth"]).days / 365.25)
-        net_calories = calories_consumed - calories_burned - bmr
-        water_intake = random.uniform(1, 4)
-        data.append(
-            {
+
+    # Loop through each day in the last 14 days
+    for day_offset in range(num_days):
+        date = datetime.now().date() - timedelta(days=day_offset)
+
+        # Generate daily activity data for each user
+        for user in users:
+            calories_burned = random.randint(0, 1500)
+            calories_consumed = random.randint(1500, 3500)
+            health = user_health[user["UserID"] - 1]
+
+            # Calculate BMR based on user's sex
+            if user["Sex"] == "Male":
+                bmr = (
+                    88.362
+                    + (13.397 * health["Weight"])
+                    + (4.799 * health["Height"])
+                    - (5.677 * (date - user["DateOfBirth"]).days / 365.25)
+                )
+            else:
+                bmr = (
+                    447.593
+                    + (9.247 * health["Weight"])
+                    + (3.098 * health["Height"])
+                    - (4.330 * (date - user["DateOfBirth"]).days / 365.25)
+                )
+
+            # Calculate net calories and water intake
+            net_calories = calories_consumed - calories_burned - bmr
+            water_intake = random.uniform(1, 4)
+
+            # Create a daily activity entry
+            daily_entry = {
                 "UserID": user["UserID"],
-                "Date": datetime.now().date(),
+                "Date": date,
                 "TotalCaloriesBurned": calories_burned,
                 "TotalCaloriesConsumed": calories_consumed,
                 "NetCalories": net_calories,
                 "WaterIntake": water_intake,
             }
-        )
+
+            # Append the daily entry to the data list
+            data.append(daily_entry)
+
     return data
 
 
@@ -109,39 +132,6 @@ def generate_daily_sleep(users, records_per_user=5):
     return data
 
 
-# WeeklySleepAverage
-def generate_weekly_sleep_average(users, daily_sleep_data):
-    weekly_averages = []
-
-    for user in users:
-        user_id = user["UserID"]
-        user_daily_sleep = [
-            record for record in daily_sleep_data if record["UserID"] == user_id
-        ]
-
-        # Calculate the date range for the last 7 days
-        end_date = datetime.now()
-        start_date = end_date - timedelta(days=6)
-
-        # Filter daily sleep records within the date range for this user
-        user_weekly_sleep = [
-            record
-            for record in user_daily_sleep
-            if start_date <= record["SleepStart"] <= end_date
-        ]
-
-        if user_weekly_sleep:
-            # Calculate the average sleep duration for the user's last 7 days
-            average_sleep_duration = sum(
-                record["SleepDuration"] for record in user_weekly_sleep
-            ) / len(user_weekly_sleep)
-            weekly_averages.append(
-                {"UserID": user_id, "AverageSleepDuration": average_sleep_duration}
-            )
-
-    return weekly_averages
-
-
 # WaterIntakeGoal
 def generate_water_intake_goal_data(users_data):
     return [
@@ -169,39 +159,6 @@ def generate_daily_water_intake_data(users_data):
                 )
                 date += fake.time_delta(end_datetime="+2h")
     return data
-
-
-# WeeklySleepAverage
-def generate_weekly_water_intake_average(users_data, daily_water_intake_data):
-    weekly_averages = []
-
-    for user in users_data:
-        user_id = user["UserID"]
-        user_daily_water_intake = [
-            record for record in daily_water_intake_data if record["UserID"] == user_id
-        ]
-
-        # Calculate the date range for the last 7 days
-        end_date = datetime.now()
-        start_date = end_date - timedelta(days=6)
-
-        # Filter daily water intake records within the date range for this user
-        user_weekly_water_intake = [
-            record
-            for record in user_daily_water_intake
-            if start_date <= record["WaterIntakeDatetime"] <= end_date
-        ]
-
-        if user_weekly_water_intake:
-            # Calculate the average water intake for the user's last 7 days
-            average_water_intake = sum(
-                record["WaterIntakeAmount"] for record in user_weekly_water_intake
-            ) / len(user_weekly_water_intake)
-            weekly_averages.append(
-                {"UserID": user_id, "AverageWaterIntake": average_water_intake}
-            )
-
-    return weekly_averages
 
 
 # DailyMeals
@@ -281,10 +238,8 @@ cursor.execute("DELETE FROM Authentication")
 cursor.execute("DELETE FROM UserHealth")
 cursor.execute("DELETE FROM SleepGoal")
 cursor.execute("DELETE FROM DailySleep")
-cursor.execute("DELETE FROM WeeklySleepAverage")
 cursor.execute("DELETE FROM WaterIntakeGoal")
 cursor.execute("DELETE FROM DailyWaterIntake")
-cursor.execute("DELETE FROM WeeklyWaterIntakeAverage")
 cursor.execute("DELETE FROM DailyMeals")
 cursor.execute("DELETE FROM UserTrainingGoal")
 cursor.execute("DELETE FROM UserWorkouts")
@@ -309,12 +264,8 @@ user_health = generate_user_health(users)
 daily_activity_for_today = generate_daily_activity_for_today(user_health, users)
 sleep_goal = generate_sleep_goal(users)
 daily_sleep = generate_daily_sleep(users)
-weekly_sleep_average = generate_weekly_sleep_average(users, daily_sleep)
 water_intake_goal_data = generate_water_intake_goal_data(users)
 daily_water_intake_data = generate_daily_water_intake_data(users)
-weekly_water_intake_average = generate_weekly_water_intake_average(
-    users, daily_water_intake_data
-)
 daily_meals_data = generate_daily_meals_data(users)
 user_training_goal_data = generate_user_training_goal_data(training_goals, users)
 user_workouts_data = generate_user_workouts_data(workouts_table, users)
@@ -335,10 +286,8 @@ insert_data("UserHealth", user_health)
 insert_data("DailyActivity", daily_activity_for_today)
 insert_data("SleepGoal", sleep_goal)
 insert_data("DailySleep", daily_sleep)
-insert_data("WeeklySleepAverage", weekly_sleep_average)
 insert_data("WaterIntakeGoal", water_intake_goal_data)
 insert_data("DailyWaterIntake", daily_water_intake_data)
-insert_data("WeeklyWaterIntakeAverage", weekly_water_intake_average)
 insert_data("DailyMeals", daily_meals_data)
 insert_data("UserTrainingGoal", user_training_goal_data)
 insert_data("UserWorkouts", user_workouts_data)
