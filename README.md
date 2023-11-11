@@ -99,3 +99,14 @@ The dashboard displays key metrics like daily water and sleep intake, 7-day aver
 
 
 
+
+
+
+
+foreign key constraints using PRAGMA foreign_keys = ON to ensure referential integrity.
+
+We added try-catch blocks to handle database-related errors and any other errors that may occur during the execution of the script.
+
+If an error occurs, the code rolls back the changes to the database to maintain data consistency.
+
+Added transactions to every insertion operation

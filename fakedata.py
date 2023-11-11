@@ -231,20 +231,6 @@ def generate_user_workouts_data(exercise_categories, users_data):
                 date += timedelta(hours=duration_hours)
     return data
 
-
-# delete all data from tables
-cursor.execute("DELETE FROM Users")
-cursor.execute("DELETE FROM Authentication")
-cursor.execute("DELETE FROM UserHealth")
-cursor.execute("DELETE FROM SleepGoal")
-cursor.execute("DELETE FROM DailySleep")
-cursor.execute("DELETE FROM WaterIntakeGoal")
-cursor.execute("DELETE FROM DailyWaterIntake")
-cursor.execute("DELETE FROM DailyMeals")
-cursor.execute("DELETE FROM UserTrainingGoal")
-cursor.execute("DELETE FROM UserWorkouts")
-cursor.execute("DELETE FROM DailyActivity")
-
 # get exercise types from database.db file table ExerciseTypes
 exercise_categories = []
 cursor.execute("SELECT * FROM ExerciseTypes")
@@ -279,6 +265,26 @@ def insert_data(table_name, data):
         sql = f"INSERT INTO {table_name} ({columns}) VALUES ({placeholders})"
         cursor.execute(sql, tuple(record.values()))
 
+# Delete all data from tables
+tables_to_clear = [
+    "Users",
+    "Authentication",
+    "UserHealth",
+    "SleepGoal",
+    "DailySleep",
+    "WaterIntakeGoal",
+    "DailyWaterIntake",
+    "DailyMeals",
+    "UserTrainingGoal",
+    "UserWorkouts",
+    "DailyActivity",
+]
+
+# Begin a single transaction for all data insertion
+conn.execute("BEGIN TRANSACTION")
+
+for table_name in tables_to_clear:
+    cursor.execute(f"DELETE FROM {table_name}")
 
 insert_data("Users", users)
 insert_data("Authentication", authentication)
