@@ -76,18 +76,59 @@ For logging physical activity, the user will be able to select a workout type fr
 For logging nutrition the user will have a component in the app where they will be able to track what they ate in a day. They will be able to write what they ate, leave a note for a category and, most importantly, input the calories they ate. The system will record how many calories they have eaten today and also send the time and date at which the food has been eaten. In future versions, the calory input could be automated by scanning the barcode of the food item or scanning the food item itself or by using a database of food items and their calories.
 
 ### 5. Personalized Fitness Recommendations
-Based on the user’s goal and the NetCalorieChange of that goal and the users current net calorie
+As explained above, the app will at all times tell the users:
+1. How many more calories they should intake or burn to reach their training goal (bulk, cut, or maintain).
+2. How many more liters of water they should drink today to reach their water goal.
+3. Give them recommendation for which exercices they should based on what type of workout they want to do (Cardiovascular, Strength, HIIT, etc.)
+4. How many more hours of sleep they should be getting a week to reach their sleep goal.
 
 ## Dashboard and Analytics
-The dashboard displays key metrics like daily water and sleep intake, 7-day averages for both. It also shows calories consumed and burned, and the net calorie count, telling users how many calories they have remaining to lose or intake to reach their daily goal (caloric deficit, surplus, or balance).
+The dashboard queries things to display key metrics like:
+- **Net Calories:** The difference between calories consumed and calories burned.
+- **Water Intake:** The amount of water consumed in liters.
+- **Sleep:** The amount of sleep in hours.
+- **Weight:** The user's weight in kilograms.
+- **BMI:** The user's body mass index.
+- **How many more calories they should intake or burn to reach their training goal (bulk, cut, or maintain).**
+- **How many more liters of water they should drink today to reach their water goal.**
+- **Give them recommendation for which exercices they should based on what type of workout they want to do (Cardiovascular, Strength, HIIT, etc.)**
+- **How many more hours of sleep they should be getting a week to reach their sleep goal.**
+- **Training streak** (how many consecutive days in a row they have worked out)
+- **Water streak** (how many consecutive days in a row they have drank enough water)
+- **Sleep streak** (how many consecutive days in a row they have slept enough)
 
+# Run
 
+To run this code:
 
+Create a (conda ideally) virtual environment and install the requirements:
 
+```bash
+conda create -n myenv python=3.11
+conda activate myenv
+pip install -r requirements.txt
+```
 
+To run the main code, including the queries just run
+  
+  ```bash
+  python main.py
+  ```
 
+To run the tests, run
 
+  ```bash
+  python -m unittest discover
+  ```
 
+### Queries output goal
+Query1.sql: Returns the calories the user should consume or burn today to meet their training goal
+
+Query2.sql: Based on the user's wanted workout type (cardio, strength, HIIT, etc.) returns a list of exercises they could do
+
+Query3.sql: Returns the sleep data for the user for the last 7 days. Useful for plotting a graph of sleep over time.
+
+Query4.sql: 
 
 
 
