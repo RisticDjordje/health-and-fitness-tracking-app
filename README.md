@@ -8,17 +8,8 @@ Upon registration, users are required to provide essential demographics:
 - **Sex:** A critical demographic for various calculations.
 - **Height and Weight:** Key metrics for health tracking. Height is relatively static, whereas weight can fluctuate.
 
-Using this information, the app calculates the user's *Body Mass Index (BMI)*.
-#### BMI Calculation
-The BMI is calculated using the formula:
 
-```
-BMI = weight in kg / (height in m)^2
-```
-This can be used to give users a suggestion on whether they should gain weight, lose weight or maintain weight.
-
-
-Besides that, another important metric we can calculate from this information is *Basal Metabolic Rate (BMR)*. To elaborate this, people burn a specific amount of calories in a day through activities such as breathing, sleeping, etc. This average amount of calories burned in a day is calculated through the BMR formulas:
+Using this information we can calcualte the *Basal Metabolic Rate (BMR)*. To elaborate this, people burn a specific amount of calories in a day through activities such as breathing, sleeping, etc. This average amount of calories burned in a day is calculated through the BMR formulas:
 
 #### BMR Calculation
 The BMR is calculated using the following formulas:
@@ -109,4 +100,5 @@ We added try-catch blocks to handle database-related errors and any other errors
 
 If an error occurs, the code rolls back the changes to the database to maintain data consistency.
 
-Added transactions to every insertion operation
+Added transactions to every insertion operation and extra try catches
+
