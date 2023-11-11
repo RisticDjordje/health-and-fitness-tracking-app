@@ -128,7 +128,7 @@ The dashboard queries things to display key metrics like:
 - **Water streak** (how many consecutive days in a row they have drank enough water)
 - **Sleep streak** (how many consecutive days in a row they have slept enough)
 
-# Installation and setup
+## Installation and setup
 
 To run this code:
 
