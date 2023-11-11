@@ -1,4 +1,41 @@
-# User Experience Pipeline
+# Health and Fitness Tracking App
+
+## Overview
+
+Welcome to our Health and Fitness Tracking App, a comprehensive solution designed to help users monitor and achieve their health and fitness goals. This application seamlessly integrates various aspects of health management, including sleep tracking, water intake, workout logging, nutrition monitoring, and personalized fitness recommendations. Built with a focus on user experience, data integrity, and robust functionality, our app provides an intuitive platform for users to track their daily activities, set and achieve fitness goals, and maintain a healthy lifestyle.
+
+Key features of the app include:
+- **Sleep Tracking:** Monitor and analyze sleep patterns for improved rest.
+- **Water Intake Recording:** Keep track of daily hydration levels.
+- **Workout Logging:** Log workouts and track progress over time.
+- **Nutrition Monitoring:** Record and manage daily nutritional intake.
+- **Personalized Fitness Recommendations:** Receive tailored advice based on individual health metrics and goals.
+
+Our app is backed by a well-structured database, ensuring data normalization, integrity, and efficient query processing. With comprehensive testing and robust error handling mechanisms, we ensure a reliable and user-friendly experience. Dive into a detailed exploration of our app's functionalities, setup instructions, and the underlying database structure in the sections below.
+
+---
+# Table of Contents
+1. [Overview](#overview)
+2. [Data Collection Process and Important Concepts](#data-collection-process-and-important-concepts)
+   - [BMR Calculation](#bmr-calculation)
+   - [Setting Goals](#setting-goals)
+   - [Explanation of Key Processes](#explanation-of-key-processes)
+3. [Core Functionalities](#core-functionalities)
+   - [Sleep Tracking](#sleep-tracking)
+   - [Water Intake Recording](#water-intake-recording)
+   - [Workout Logging](#workout-logging)
+   - [Nutrition Monitoring](#nutrition-monitoring)
+   - [Personalized Fitness Recommendations](#personalized-fitness-recommendations)
+4. [Dashboard and Analytics](#dashboard-and-analytics)
+5. [Installation and Setup](#installation-and-setup)
+6. [File Structure](#file-structure)
+7. [SQL Queries Description](#sql-queries-description)
+8. [Comprehensive and Detailed Testing Approach](#comprehensive-and-detailed-testing-approach)
+9. [Robust Database Testing with Transactions and Exception Handling](#robust-database-testing-with-transactions-and-exception-handling)
+10. [Data Normalization in Health and Fitness Tracking App](#data-normalization-in-health-and-fitness-tracking-app)
+
+
+---
 
 ## Data collection process and important concepts
 Upon registration, users are required to provide essential demographics:
@@ -25,7 +62,7 @@ The BMR is calculated using the following formulas:
 
 This is a critical metric for determining the number of calories a user should consume in a day. The app will use this information to provide personalized fitness recommendations.
 
-## Setting Goals
+### Setting Goals
 
 The next step in the registration process is setting goals. Here, users define their fitness goals through the following parameters:
 
@@ -91,7 +128,7 @@ The dashboard queries things to display key metrics like:
 - **Water streak** (how many consecutive days in a row they have drank enough water)
 - **Sleep streak** (how many consecutive days in a row they have slept enough)
 
-## Installation and setup
+# Installation and setup
 
 To run this code:
 
@@ -209,12 +246,6 @@ Our health and fitness tracking app employs a meticulous and thorough testing st
 
 
 ## Robust Database Testing with Transactions and Exception Handling
-
-### Overview
-In our health and fitness tracking app, we emphasize the importance of robust and reliable database operations. This is exemplified in our `TestDatabase` class, where we employ transactions and try-catch blocks (exception handling) to ensure the integrity and consistency of our database interactions.
-
-
-## Robust Database Operations with Transactions and Exception Handling
 
 ### Overview
 Our health and fitness tracking app ensures the integrity and reliability of database operations through the strategic use of transactions, exception handling, and enforcing foreign key constraints. This approach is consistently applied across various database interactions, including table creation, data insertion, and query execution.
