@@ -1,6 +1,6 @@
 # User Experience Pipeline
 
-## Registration Process
+## Data collection process and important concepts
 Upon registration, users are required to provide essential demographics:
 
 - **Email, Username, First Name, Last Name:** Basic identification details.
@@ -37,21 +37,15 @@ The next step in the registration process is setting goals. Here, users define t
 To better understand these goals we need to understand some key processes.
 
 #### Explanation of key processes
-Besides BMR, another way people burn calories is through excercise and the amount of calories burned depends on the type of excercise they do and the duration of the excercise. For example, running burns more calories than walking. 
-
-On the other hand, calories are replenished through food. The amount of calories depends on the type of food (protein, fat, carbohydrates, etc.) eaten and the quanityt. For example, a burger has more calories than a salad. 
-
-Knowing this gives us enough information to calculate **the net calories**.
+Besides BMR, another way people burn calories is through excercise and the amount of calories burned depends on the type of excercise they do and the duration of the excercise. For example, running burns more calories than walking. On the other hand, calories are replenished through food. The amount of calories depends on the type of food (protein, fat, carbohydrates, etc.) eaten and the quanityt. For example, a burger has more calories than a salad. Knowing this gives us enough information to calculate **the net calories**.
 
 ```
 net calories = calories taken in by food - calories burned by excercise - BMR calories burned.
 ``` 
 
-Now, if the user wants to **lose weight / cut**, they have to be in a **caloric deficit**. The usual recommended caloric deficit is 400 calories. This is the value that the user should be aspiring to achieve. 
-
-If the user wants to **gain weight / bulk**, they have to be in a **caloric surplus**. The usual recommended caloric surplus is 400 calories (this is the NetCalorieChange for this goal). This is the value that the user should be aspiring to achieve.
-
-If the user wants to maintain weight, they have to be in a **caloric balance**. This means that the net calories should be around 0.
+1. Now, if the user wants to **lose weight / cut**, they have to be in a **caloric deficit**. The usual recommended caloric deficit is 400 calories. This is the value that the user should be aspiring to achieve. 
+2. If the user wants to **gain weight / bulk**, they have to be in a **caloric surplus**. The usual recommended caloric surplus is 400 calories (this is the NetCalorieChange for this goal). This is the value that the user should be aspiring to achieve.
+3. If the user wants to maintain weight, they have to be in a **caloric balance**. This means that the net calories should be around 0.
 
 Depending on the goal set and the users goal, the app will provide personalized fitness recommendations.
 
@@ -97,7 +91,7 @@ The dashboard queries things to display key metrics like:
 - **Water streak** (how many consecutive days in a row they have drank enough water)
 - **Sleep streak** (how many consecutive days in a row they have slept enough)
 
-# Run
+## Installation and setup
 
 To run this code:
 
@@ -121,25 +115,157 @@ To run the tests, run
   python -m unittest discover
   ```
 
-### Queries output goal
-Query1.sql: Returns the calories the user should consume or burn today to meet their training goal
+## File Structure
+- `README.md` - This file.
+- `base_data.sql` - Base data for the application.
+- `fakedata.py` - Script to generate fake data.
+- `main.py` - Main application script.
+- `queries/` - Directory containing SQL queries.
+  - `query1.sql` - Calculates calories to consume or burn for training goals.
+  - `query2.sql` - Lists exercises based on workout type.
+  - `query3.sql` - Retrieves 7-day sleep data.
+  - `query4.sql` - Aggregates daily user data over 7 days.
+  - `query5.sql` - Calculates 7-day averages for user metrics.
+  - `query6.sql` - Calculates average sleep duration over 7 days.
+  - `query7.sql` - Determines additional water needed to meet daily goal.
+  - `query8.sql` - Calculates average 7-day sleeping hours and suggestions.
+  - `query9.sql` - Retrieves current day's water intake, sleep, weight, and BMI.
+  - `query10.sql` - Tracks current active training streak.
+  - `query11.sql` - Tracks water intake goal streak.
+  - `query12.sql` - Tracks sleep hours goal streak.
+- `schema.sql` - Database schema.
+- `test.py` - Script for running tests.
 
-Query2.sql: Based on the user's wanted workout type (cardio, strength, HIIT, etc.) returns a list of exercises they could do
+## SQL Queries Description
+Each SQL query in the `queries` directory serves a specific purpose:
 
-Query3.sql: Returns the sleep data for the user for the last 7 days. Useful for plotting a graph of sleep over time.
+#### `query1.sql`
+Calculates the calories a user should consume or burn today to meet their training goal.
 
-Query4.sql: 
+#### `query2.sql`
+Lists exercises for the user's chosen workout type (e.g., Cardiovascular, HIIT).
+
+#### `query3.sql`
+Retrieves the user's sleep data for the last 7 days.
+
+#### `query4.sql`
+Aggregates daily user data over the past 7 days, including water intake, calories consumed and burned.
+
+#### `query5.sql`
+Calculates 7-day averages for water intake, calories consumed, calories burned, and net calories.
+
+#### `query6.sql`
+Calculates the average sleep duration for a user over the past 7 days.
+
+#### `query7.sql`
+Determines how much more water a user needs to drink today to reach their daily goal.
+
+#### `query8.sql`
+Calculates the average sleeping hours over 7 days for a user and provides sleep suggestions.
+
+#### `query9.sql`
+Retrieves today's water intake, sleep duration, weight, and BMI for a given user.
+
+#### `query10.sql`
+Tracks the current active training streak of a user.
+
+#### `query11.sql`
+Tracks the streak of meeting the daily water intake goal.
+
+#### `query12.sql`
+Tracks the streak of meeting the daily sleep hours goal.
 
 
 
+## Comprehensive and Detailed Testing Approach
+
+### Overview
+Our health and fitness tracking app employs a meticulous and thorough testing strategy, as exemplified by the `TestDatabase` class. This class, written in Python and utilizing the `unittest` framework, demonstrates our commitment to ensuring the reliability and accuracy of the application's interaction with the database.
+
+### Key Features of the `TestDatabase` Class
+
+#### 1. **In-Memory Database Testing**
+   - The tests are conducted using an in-memory SQLite database, allowing for fast and isolated testing environments.
+   - This approach ensures that tests do not interfere with each other or with a persistent database, maintaining test integrity.
+
+#### 2. **Schema Script Execution**
+   - Each test begins by reading and executing the schema SQL script, ensuring that the database structure is consistent with the application's requirements.
+
+#### 3. **Comprehensive Test Cases**
+   - **User Data Insertion:** Tests validate the correct insertion of user data into the database, ensuring data integrity.
+   - **Unique Username Constraint:** The application's enforcement of unique usernames is tested, a crucial aspect for user authentication.
+   - **Health Data Management:** Tests cover the insertion of user health data, including height, weight, and sleep data, ensuring comprehensive health tracking.
+   - **Water Intake and Workout Data:** The application's ability to handle water intake goals and workout data is thoroughly tested.
+   - **Meal and Activity Tracking:** Tests ensure that meal and daily activity data are correctly managed by the application.
+   - **Training Goals and Exercise Types:** The system's handling of training goals and exercise types is validated through dedicated test cases.
+
+#### 4. **Error Handling and Constraints**
+   - The tests include scenarios that trigger database constraints (like unique constraints), ensuring the application handles such cases gracefully.
+   - This approach is vital for maintaining data consistency and preventing invalid data entries.
+
+#### 5. **Data Update and Retrieval**
+   - Tests are not limited to data insertion but also include scenarios for data updating and retrieval, covering a wide range of database operations.
+   - This ensures that the application can not only store but also correctly retrieve and update user data.
 
 
+## Robust Database Testing with Transactions and Exception Handling
 
-foreign key constraints using PRAGMA foreign_keys = ON to ensure referential integrity.
+### Overview
+In our health and fitness tracking app, we emphasize the importance of robust and reliable database operations. This is exemplified in our `TestDatabase` class, where we employ transactions and try-catch blocks (exception handling) to ensure the integrity and consistency of our database interactions.
 
-We added try-catch blocks to handle database-related errors and any other errors that may occur during the execution of the script.
 
-If an error occurs, the code rolls back the changes to the database to maintain data consistency.
+## Robust Database Operations with Transactions and Exception Handling
 
-Added transactions to every insertion operation and extra try catches
+### Overview
+Our health and fitness tracking app ensures the integrity and reliability of database operations through the strategic use of transactions, exception handling, and enforcing foreign key constraints. This approach is consistently applied across various database interactions, including table creation, data insertion, and query execution.
+
+### Key Aspects of Our Approach
+
+#### 1. **Enforcing Referential Integrity with Foreign Key Constraints**
+   - **PRAGMA foreign_keys = ON:** We ensure referential integrity in our SQLite database by enabling foreign key constraints. This is crucial for maintaining the relational integrity of the data and preventing orphan records.
+
+#### 2. **Use of Transactions in Database Operations**
+   - **Consistent State Management:** Transactions are used to ensure that all database operations either complete fully or not at all. This is crucial in maintaining the consistency and integrity of the database.
+   - **Atomic Operations:** By wrapping operations like table creation and data insertion within transactions, we ensure atomicity. This means that either all operations succeed, or in the event of an error, the database reverts to its previous state.
+   - **Efficient Bulk Operations:** Transactions are particularly beneficial when inserting bulk data, as they allow for multiple operations to be treated as a single unit, enhancing performance and consistency.
+
+#### 3. **Comprehensive Exception Handling in Database Interactions**
+   - **Graceful Error Management:** Our code includes try-catch blocks to handle exceptions that may occur during database operations. This ensures that errors are caught and handled appropriately, preventing the application from crashing.
+   - **Rollback on Error:** In case of an error, particularly within a transaction, changes are rolled back to maintain the database's integrity. This is evident in our approach to handling database-related errors and during data generation phases.
+   - **Handling Various Error Types:** We have implemented error handling not just for database errors but for any other exceptions that might occur during script execution, providing a robust safety net for our operations.
+
+#### 4. **Ensuring Data Integrity and Reliability**
+   - **Reliable Database Setup and Maintenance:** From setting up the database schema to populating it with base and fake data, our approach ensures that each step is executed reliably, with error checks and rollbacks where necessary.
+   - **Robust Query Execution:** The application's robustness is further demonstrated during query execution, where we handle potential issues gracefully, ensuring that the database operations are not only effective but also resilient to errors.
+
+### Conclusion
+The strategic use of transactions, comprehensive error handling, and enforcement of foreign key constraints in our health and fitness tracking app underscores our commitment to data integrity and operational reliability. This approach ensures that our database operations are not only efficient and consistent but also resilient to errors, providing a stable and reliable foundation for our application.
+
+
+## Data Normalization in Health and Fitness Tracking App
+
+Our health and fitness tracking app employs a comprehensive approach to data normalization, adhering to all five normal forms to ensure the database is optimized, consistent, and free from redundancy. Here's a detailed breakdown of how each normal form is applied:
+
+### 1. **First Normal Form (1NF)**
+- **Atomicity:** Each table column contains atomic values. For instance, in the `Users` table, columns like `FirstName`, `LastName`, `DateOfBirth`, and `Sex` store single, indivisible values.
+- **Unique Primary Keys:** Every table has a unique primary key. For example, `UserID` in the `Users` table and `SleepID` in the `DailySleep` table.
+
+### 2. **Second Normal Form (2NF)**
+- **Eliminating Partial Dependency:** All non-key attributes are fully functionally dependent on the primary key. For example, in the `UserHealth` table, both `Height` and `Weight` are dependent on `UserID`, not on a subset of the primary key.
+- **Separation of Data:** Data is separated based on primary key dependency. For instance, user authentication details are in the `Authentication` table, separate from the `Users` table, to avoid partial dependency.
+
+### 3. **Third Normal Form (3NF)**
+- **Eliminating Transitive Dependency:** Non-key attributes are not dependent on other non-key attributes. For example, in the `DailySleep` table, `SleepDuration` is calculated directly from `SleepStart` and `SleepEnd`, and does not depend on any other non-key attribute.
+- **Separation of Non-Key Attributes:** Tables like `DailyActivity` separate attributes like `WaterIntake`, `TotalCaloriesBurned`, and `TotalCaloriesConsumed`, ensuring they are not dependent on each other but only on the primary key (`ActivityID`).
+
+### 4. **Boyce-Codd Normal Form (BCNF)**
+- **Refined 3NF:** Our database design refines 3NF by ensuring every determinant is a candidate key. For example, in the `Authentication` table, `Username` and `Email` are unique and not just functionally dependent on `UserID` but also candidate keys in their own right.
+- **Strong Entity Relationships:** The relationships between entities, such as between `Users` and `Authentication`, are strong and well-defined, with foreign keys ensuring referential integrity.
+
+### 5. **Fourth and Fifth Normal Forms (4NF and 5NF)**
+- **Handling Multi-Valued Dependencies:** Our design avoids multi-valued dependencies. Each table represents a single theme or concept, such as `UserWorkouts` focusing solely on user workout sessions.
+- **Avoiding Join Dependencies:** The database design ensures that no table is subject to a join dependency that is not a consequence of the candidate keys. This means tables can be reconstructed from their decomposed forms without loss of information.
+
+### Conclusion
+By adhering to these normalization principles, our database design ensures efficiency, consistency, and integrity of data. This approach minimizes redundancy, optimizes storage, and enhances the performance of our health and fitness tracking application. Each decision in the database structure, from the separation of user authentication details to the calculation of sleep duration, is made with these normalization rules in mind, ensuring a robust and reliable database system.
 

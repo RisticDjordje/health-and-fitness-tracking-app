@@ -300,3 +300,4 @@ insert_data("UserWorkouts", user_workouts_data)
 
 conn.commit()
 conn.close()
+
