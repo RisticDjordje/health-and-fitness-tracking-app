@@ -43,9 +43,14 @@ def generate_daily_activity_for_today(user_health, users):
     for user in users:
         calories_burned = random.randint(0, 1500)
         calories_consumed = random.randint(1500, 3500)
-        net_calories = (
-            calories_consumed - calories_burned - user_health[user["UserID"] - 1]["BMR"]
-        )
+        health = user_health[user["UserID"] - 1]
+        # if user is a man
+        # 88.362 + (13.397 × weight in kg) + (4.799 × height in cm) - (5.677 × age in years)
+        if user["Sex"] == "Male":
+            bmr = 88.362 + (13.397 * health["Weight"]) + (4.799 * health["Height"]) - (5.677 * (datetime.now().date() - user["DateOfBirth"]).days / 365.25)
+        else:
+            bmr = 447.593 + (9.247 * health["Weight"]) + (3.098 * health["Height"]) - (4.330 * (datetime.now().date() - user["DateOfBirth"]).days / 365.25)
+        net_calories = calories_consumed - calories_burned - bmr
         water_intake = random.uniform(1, 4)
         data.append(
             {
@@ -66,21 +71,12 @@ def generate_user_health(users):
     for user in users:
         height = random.uniform(150, 200)
         weight = random.uniform(50, 100)
-        bmi = weight / ((height / 100) ** 2)
-        bmr = (
-            10 * weight
-            + 6.25 * height
-            - 5 * (2023 - user["DateOfBirth"].year)
-            + (5 if user["Sex"] == "Male" else -161)
-        )
 
         user_health_data.append(
             {
                 "UserID": user["UserID"],
                 "Height": height,
                 "Weight": weight,
-                "BMI": bmi,
-                "BMR": bmr,
             }
         )
     return user_health_data

@@ -25,7 +25,7 @@ The BMR is calculated using the following formulas:
 
 - For Men:
   ```
-  BMR = 88.362 + (13.397 × weight in kg) + (4.799 × height in cm) - (5.677 × age in years)
+  88.362 + (13.397 × weight in kg) + (4.799 × height in cm) - (5.677 × age in years)
   ```
 - For Women:
   ```

@@ -24,8 +24,6 @@ CREATE TABLE
         UserID INTEGER,
         Height REAL NOT NULL, -- Height in cm
         Weight REAL NOT NULL, -- Weight in kg
-        BMI REAL NOT NULL, -- BMI = Weight / (Height^2)
-        BMR REAL NOT NULL, -- BMR in kcal/day
         FOREIGN KEY (UserID) REFERENCES Users (UserID)
     );
 
